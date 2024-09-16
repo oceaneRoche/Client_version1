@@ -56,21 +56,28 @@ public class HelloController implements Initializable {
 
     private void envoyer() throws InterruptedException {
         String requette = TextFieldRequette.getText();
-        if (enRun && !requette.isEmpty()) {
-            try {
-                tcp.requette(requette);
-                TextAreaReponses.appendText("Requete envoyer : " + requette + "\n");
-            } catch (IOException e) {
-                TextAreaReponses.appendText("Erreur d'envoi de requete" + e.getMessage());
+        if (requette.equalsIgnoreCase("exit")) {
+            deconnecter();
+        }else {
+            if (enRun && !requette.isEmpty()) {
+                try {
+                    tcp.requette(requette);
+                    TextAreaReponses.appendText("Requete envoyer : " + requette + "\n");
+                } catch (IOException e) {
+                    TextAreaReponses.appendText("Erreur d'envoi de requete" + e.getMessage());
+                }
+            } else {
+                TextAreaReponses.appendText("Connexion non etablie ou requete vide");
             }
-        } else {
-            TextAreaReponses.appendText("Connexion non etablie ou requete vide");
         }
+
     }
 
     private void deconnecter() throws InterruptedException {
         if (enRun) {
             tcp.deconnection();
+            voyant.setFill(RED);
+            TextAreaReponses.appendText("Deconnecter reussie");
             enRun = false;
         }
     }

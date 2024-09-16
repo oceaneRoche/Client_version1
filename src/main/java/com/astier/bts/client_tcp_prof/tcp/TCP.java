@@ -62,15 +62,17 @@ public class TCP extends Thread {
     public void deconnection() throws InterruptedException {
         if (socket != null && socket.isClosed()){
             try {
-                out.close();
+                out.print("exit");
                 in.close();
+                out.close();
                 socket.close();
+                marche = false;
+                connection = false;
+                System.out.println("Deconnexion");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            marche = false;
-            connection = false;
-            System.out.println("Deconnexion");
+
         }
     }
 
